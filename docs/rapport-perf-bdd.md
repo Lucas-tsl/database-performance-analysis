@@ -2,7 +2,7 @@
 
 **Projet :** Optimisation Plateforme E-learning  
 **Date :** 19 Janvier 2026  
-**Auteur :** [Ton Prénom]
+**Auteur :** Troteseil Lucas
 
 ---
 
