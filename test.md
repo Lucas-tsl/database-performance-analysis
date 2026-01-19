@@ -41,7 +41,7 @@ L'audit se concentre sur l'analyse des plans d'exécution (`EXPLAIN ANALYZE`) av
 
 La base de données est composée de **4 tables principales** avec les relations suivantes :
 
-![Schéma de la base de données](../images/shema-bdd.png)
+![Schéma de la base de données](images/shema-bdd.png)
 
 **Relations :**
 - `students` (1) ──────< (N) `enrollments` : Un étudiant peut avoir plusieurs inscriptions
