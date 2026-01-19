@@ -1,0 +1,155 @@
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT * FROM access_logs WHERE ip_address = '192.168.10.15';
+
+Gather  (cost=1000.00..78191.37 rows=77 width=47) (actual time=40.452..805.793 rows=87 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=12909 read=38233
+  ->  Parallel Seq Scan on access_logs  (cost=0.00..77183.67 rows=32 width=47) (actual time=52.155..759.214 rows=29 loops=3)
+        Filter: (ip_address = '192.168.10.15'::inet)
+        Rows Removed by Filter: 1666638
+        Buffers: shared hit=12909 read=38233
+Planning Time: 2.945 ms
+Execution Time: 806.841 ms
+
+après avoir intégré les index : 
+
+Bitmap Heap Scan on access_logs  (cost=5.04..308.87 rows=78 width=47) (actual time=0.659..3.404 rows=87 loops=1)
+  Recheck Cond: (ip_address = '192.168.10.15'::inet)
+  Heap Blocks: exact=87
+  Buffers: shared hit=90
+  ->  Bitmap Index Scan on idx_access_logs_ip  (cost=0.00..5.02 rows=78 width=0) (actual time=0.508..0.508 rows=87 loops=1)
+        Index Cond: (ip_address = '192.168.10.15'::inet)
+        Buffers: shared hit=3
+Planning Time: 0.855 ms
+Execution Time: 3.841 ms
+
+
+
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT count(*) FROM access_logs WHERE access_time > NOW() - interval '7 days';
+
+Finalize Aggregate  (cost=89833.70..89833.71 rows=1 width=8) (actual time=481.643..484.468 rows=1 loops=1)
+  Buffers: shared hit=12982 read=38160
+  ->  Gather  (cost=89833.49..89833.70 rows=2 width=8) (actual time=481.504..484.462 rows=3 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=12982 read=38160
+        ->  Partial Aggregate  (cost=88833.49..88833.50 rows=1 width=8) (actual time=466.200..466.200 rows=1 loops=3)
+              Buffers: shared hit=12982 read=38160
+              ->  Parallel Seq Scan on access_logs  (cost=0.00..87600.33 rows=493262 width=0) (actual time=0.118..443.808 rows=386990 loops=3)
+                    Filter: (access_time > (now() - '7 days'::interval))
+                    Rows Removed by Filter: 1279677
+                    Buffers: shared hit=12982 read=38160
+Planning:
+  Buffers: shared hit=11
+Planning Time: 3.816 ms
+Execution Time: 484.952 ms
+
+après avoir intégré les index : 
+
+Finalize Aggregate  (cost=28752.98..28752.99 rows=1 width=8) (actual time=137.585..141.230 rows=1 loops=1)
+  Buffers: shared hit=537539
+  ->  Gather  (cost=28752.76..28752.97 rows=2 width=8) (actual time=137.471..141.224 rows=3 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=537539
+        ->  Partial Aggregate  (cost=27752.76..27752.77 rows=1 width=8) (actual time=119.731..119.732 rows=1 loops=3)
+              Buffers: shared hit=537539
+              ->  Parallel Index Only Scan using idx_access_logs_time on access_logs  (cost=0.44..26532.08 rows=488273 width=0) (actual time=0.265..95.077 rows=386157 loops=3)
+                    Index Cond: (access_time > (now() - '7 days'::interval))
+                    Heap Fetches: 0
+                    Buffers: shared hit=537539
+Planning Time: 1.429 ms
+Execution Time: 141.809 ms
+
+
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT s.first_name, s.last_name, c.title FROM students s JOIN enrollments e ON s.student_id = e.student_id JOIN courses c ON e.course_id = c.course_id WHERE c.category = 'Informatique' AND e.grade = 100;
+
+Nested Loop  (cost=1000.69..28498.85 rows=1 width=31) (actual time=471.894..473.808 rows=0 loops=1)
+  Buffers: shared read=16087
+  ->  Nested Loop  (cost=1000.42..28490.47 rows=1 width=26) (actual time=471.893..473.806 rows=0 loops=1)
+        Buffers: shared read=16087
+        ->  Gather  (cost=1000.00..28482.03 rows=1 width=8) (actual time=471.892..473.804 rows=0 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared read=16087
+              ->  Parallel Seq Scan on enrollments e  (cost=0.00..27481.93 rows=1 width=8) (actual time=459.488..459.489 rows=0 loops=3)
+                    Filter: (grade = 100)
+                    Rows Removed by Filter: 729276
+                    Buffers: shared read=16087
+        ->  Index Scan using students_pkey on students s  (cost=0.42..8.44 rows=1 width=26) (never executed)
+              Index Cond: (student_id = e.student_id)
+  ->  Index Scan using courses_pkey on courses c  (cost=0.28..8.29 rows=1 width=13) (never executed)
+        Index Cond: (course_id = e.course_id)
+        Filter: (category = 'Informatique'::text)
+Planning:
+  Buffers: shared hit=110 read=15
+Planning Time: 13.003 ms
+Execution Time: 474.288 ms
+
+
+après avoir intégré les index : 
+
+
+Nested Loop  (cost=1.12..25.26 rows=1 width=31) (actual time=0.535..0.544 rows=0 loops=1)
+  Buffers: shared read=3
+  ->  Nested Loop  (cost=0.85..16.88 rows=1 width=26) (actual time=0.535..0.535 rows=0 loops=1)
+        Buffers: shared read=3
+        ->  Index Scan using idx_enrollments_grade on enrollments e  (cost=0.43..8.45 rows=1 width=8) (actual time=0.534..0.534 rows=0 loops=1)
+              Index Cond: (grade = 100)
+              Buffers: shared read=3
+        ->  Index Scan using students_pkey on students s  (cost=0.42..8.44 rows=1 width=26) (never executed)
+              Index Cond: (student_id = e.student_id)
+  ->  Index Scan using courses_pkey on courses c  (cost=0.28..8.29 rows=1 width=13) (never executed)
+        Index Cond: (course_id = e.course_id)
+        Filter: (category = 'Informatique'::text)
+Planning:
+  Buffers: shared hit=75 read=5
+Planning Time: 11.731 ms
+Execution Time: 1.064 ms
+
+
+Analyse critique des résultats 
+1. Requête "Recherche par IP" (access_logs)
+Le constat :
+
+Type de Scan : Parallel Seq Scan sur access_logs.
+
+Temps d'exécution : ~806 ms (presque 1 seconde pour une simple recherche !).
+
+Buffers (I/O) : read=38233. PostgreSQL a dû lire plus de 38 000 blocs depuis le disque.
+
+Inefficacité : Regarde la ligne Rows Removed by Filter: 1666638 (par worker). Au total, PostgreSQL a lu 5 millions de lignes, pour en jeter 99,99% et n'en garder que 87. C'est un gaspillage énorme de ressources CPU et Disque.
+
+Conclusion : L'absence d'index sur ip_address force le moteur à lire toute la table. C'est un goulot d'étranglement critique.
+
+2. Requête "Statistiques sur 7 jours" (access_logs)
+Le constat :
+
+Type de Scan : Parallel Seq Scan.
+
+Temps d'exécution : ~485 ms.
+
+Filtrage : Le filtre access_time > ... est appliqué ligne par ligne après lecture complète de la table.
+
+Volume : Comme pour l'IP, il lit tout pour ne trouver que les lignes récentes.
+
+Conclusion : Les recherches par plage de dates (Range Scan) sont très lentes sans index B-Tree ordonné sur la colonne access_time.
+
+3. Requête "Jointure Complexe" (enrollments + students + courses)
+Le constat :
+
+Le coupable : Parallel Seq Scan on enrollments e.
+
+Filtre coûteux : Filter: (grade = 100). PostgreSQL scanne les 2 millions d'inscriptions pour trouver celles qui ont la note 100.
+
+Observation intéressante : Tu noteras que les nœuds Index Scan using students_pkey indiquent (never executed) ou très peu.
+
+Pourquoi ? Parce que le scan initial sur enrollments a pris tout le temps. Comme il a trouvé 0 ligne (ou très peu) correspondant à grade=100, il n'a même pas eu besoin d'aller chercher les étudiants. Mais le mal était fait : le scan de 2 millions de lignes a coûté ~460 ms.
+
+Conclusion : Même avec des clés primaires sur les tables jointes (students, courses), la requête reste lente car le point d'entrée (le filtre sur grade dans enrollments) n'est pas indexé.
+
+
+
