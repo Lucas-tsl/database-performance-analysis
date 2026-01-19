@@ -27,7 +27,7 @@ CREATE TABLE enrollments (
     student_id INT NOT NULL REFERENCES students(student_id),
     course_id INT NOT NULL REFERENCES courses(course_id),
     enrollment_date TIMESTAMPTZ DEFAULT NOW(),
-    grade INT CHECK (grade BETWEEN 0 AND 100)
+    grade INT CHECK (grade BETWEEN 0 AND 100),
     CONSTRAINT unique_enrollment UNIQUE (student_id, course_id)
 );
 
@@ -37,5 +37,7 @@ CREATE TABLE access_logs (
     student_id INT REFERENCES students(student_id),
     url_accessed TEXT NOT NULL,
     access_time TIMESTAMPTZ DEFAULT NOW(),
-    ip_address INE
+    ip_address INET
 );
+
+// 10 requete + analyse des performances
