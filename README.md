@@ -4,14 +4,6 @@ Projet d'analyse et d'optimisation des performances de bases de données relatio
 
 ---
 
-## 📁 Structure du Projet
-
-```
-database-performance-analysis/
-├── tp1/              # Analyse de performance PostgreSQL (schéma de cinéma)
-└── tp2/              # Analyse comparative SQL/NoSQL (trading Binance)
-```
-
 ---
 
 ## 🎯 TP1 : Performance des Bases de Données Relationnelles
@@ -26,26 +18,7 @@ Gestion d'un système de **réservation de cinéma** avec :
 - Gestion des salles et des tarifs
 - Analyse des ventes
 
-### Technologies
-- **PostgreSQL** (base de données relationnelle)
-- **Docker** (conteneurisation)
-- **SQL** (manipulation et analyse des données)
 
-### Contenu
-- ✅ Conception du schéma de base de données
-- ✅ Génération de données volumineuses (mock data)
-- ✅ Analyse des requêtes avec EXPLAIN / ANALYZE
-- ✅ Optimisation par indexation
-- ✅ Mesure des gains de performance
-
-### Structure
-```
-tp1/
-├── sql/              # Scripts SQL (création, insertion, requêtes)
-├── docs/             # Documentation du projet
-├── images/           # Captures d'écran et schémas
-└── docker-compose.yml
-```
 
 ### Exécution
 ```bash
@@ -72,12 +45,6 @@ Analyse des **trades en temps réel** depuis l'API Binance (BTCUSDT) avec :
 - Optimisation avancée (index, vues matérialisées, partitioning)
 - Comparaison de performance SQL vs NoSQL
 
-### Technologies
-- **PostgreSQL 15-alpine** (base de données relationnelle)
-- **MongoDB Atlas** (base de données NoSQL cloud)
-- **Python 3.13** (ETL et scripts d'analyse)
-- **Docker** (conteneurisation PostgreSQL)
-- **Binance API** (source de données réelles)
 
 ### 📋 Les 4 Phases du Projet
 
@@ -111,25 +78,6 @@ Analyse des **trades en temps réel** depuis l'API Binance (BTCUSDT) avec :
 - **Résultats** :
   - Filtre sur price : 687ms → **79ms** (× 8.6)
   - MongoDB reste **440× plus lent** que PostgreSQL optimisé
-
-### Structure
-```
-tp2/
-├── python/
-│   ├── collect_data.py           # ETL Binance → PostgreSQL + MongoDB
-│   └── mongodb_optimization.py   # Tests de performance MongoDB
-├── sql/
-│   ├── create-table.sql          # Schéma PostgreSQL (partitioned)
-│   ├── diagnostic-queries.sql    # Requêtes d'analyse
-│   └── optimizations.sql         # Index + vues matérialisées
-├── doc/
-│   ├── instruction-second-task.md   # Consignes du projet
-│   ├── analyse-request.md           # Analyse détaillée Phase 2
-│   ├── comparaison-avant-apres.md   # Résultats Phase 3
-│   └── mongodb-optimisation.md      # Résultats Phase 4
-├── docker-compose.yml            # PostgreSQL container
-└── venv/                         # Environnement Python
-```
 
 ### Exécution
 
@@ -177,24 +125,7 @@ python python/mongodb_optimization.py
 |-----------------|------------|---------|---------|
 | **Filtre sur prix** | 0.18 ms | 79 ms | PostgreSQL (× 440) |
 | **Tri + LIMIT** | 0.82 ms | - | PostgreSQL |
-| **Statistiques globales** | 0.12 ms (MV) | - | PostgreSQL |
-| **Gain d'optimisation** | × 920 | × 8.6 | PostgreSQL |
-
-### 🏆 Conclusions
-
-#### PostgreSQL excelle pour :
-- ✅ Requêtes analytiques complexes (JOIN, GROUP BY)
-- ✅ Performance extrême avec vues matérialisées
-- ✅ Intégrité référentielle et transactions ACID
-- ✅ Optimisations avancées (index B-tree, partitioning)
-
-#### MongoDB excelle pour :
-- ✅ Schéma flexible et évolutif
-- ✅ Stockage de JSON brut
-- ✅ Scalabilité horizontale (sharding)
-- ✅ Requêtes sur documents imbriqués
-
----
+| **Statistiques globales** | 0.12 ms (MV) | - | PostgreSQL || **Gain d'optimisation** | × 920 | × 8.6 | PostgreSQL |
 
 ## 🛠️ Technologies Utilisées
 
