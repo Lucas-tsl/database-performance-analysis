@@ -45,40 +45,6 @@ Analyse des **trades en temps réel** depuis l'API Binance (BTCUSDT) avec :
 - Optimisation avancée (index, vues matérialisées, partitioning)
 - Comparaison de performance SQL vs NoSQL
 
-
-### 📋 Les 4 Phases du Projet
-
-#### **PHASE 1 : Mise en place des données** ✅
-- Script Python de collecte depuis l'API Binance
-- Stockage des données brutes dans MongoDB (JSON)
-- Stockage structuré dans PostgreSQL (tables normalisées + partitioning)
-- **Résultat** : 1 000 000 trades collectés en ~40 minutes (407 trades/sec)
-
-#### **PHASE 2 : Diagnostic des performances SQL** ✅
-- Analyse de 6 types de requêtes métier (filtres, tris, GROUP BY, JOIN)
-- Utilisation de EXPLAIN (ANALYZE, BUFFERS)
-- Identification des Sequential Scans et des manques d'index
-- **Résultat** : Requêtes entre 48ms et 204ms sans optimisation
-
-#### **PHASE 3 : Optimisation avancée SQL** ✅
-- Création de 7 index B-tree (price, quantity, composés)
-- 2 vues matérialisées (statistiques horaires et par symbole)
-- ANALYZE des tables pour mise à jour des statistiques
-- **Résultats** :
-  - Filtre sur price : 165ms → **0.18ms** (× 920)
-  - Tri sur quantity : 169ms → **0.82ms** (× 205)
-  - Stats horaires : 204ms → **0.13ms** (× 1600)
-  - Stats par symbole : 203ms → **0.12ms** (× 1690)
-
-#### **PHASE 4 : Optimisation MongoDB** ✅
-- Analyse AVANT optimisation (COLLSCAN)
-- Création de 4 index (price, timestamp, quantity, composé)
-- Analyse APRÈS optimisation (IXSCAN)
-- Tests avec Aggregation Pipeline
-- **Résultats** :
-  - Filtre sur price : 687ms → **79ms** (× 8.6)
-  - MongoDB reste **440× plus lent** que PostgreSQL optimisé
-
 ### Exécution
 
 #### 1. Démarrer PostgreSQL
