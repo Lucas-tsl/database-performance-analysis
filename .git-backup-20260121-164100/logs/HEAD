@@ -1,0 +1,14 @@
+0000000000000000000000000000000000000000 75fdecb8091eb153b2f9711eac39552e067533d2 Lucas Troteseil <troteseil.lucas@gmail.com> 1768816590 +0100	clone: from https://github.com/Lucas-tsl/database-performance-analysis.git
+75fdecb8091eb153b2f9711eac39552e067533d2 669c2552f17c0c6aa50f6ca1000ba562ec5ecd76 Lucas Troteseil <troteseil.lucas@gmail.com> 1768817332 +0100	commit: doc: create folder/files docs
+669c2552f17c0c6aa50f6ca1000ba562ec5ecd76 af5730627f6e2cd1f3a52179087b1780fdfc0f46 Lucas Troteseil <troteseil.lucas@gmail.com> 1768820576 +0100	commit: fix: add and restruct folder
+af5730627f6e2cd1f3a52179087b1780fdfc0f46 d11b0872475c907f7f14755c24089344856e6202 Lucas Troteseil <troteseil.lucas@gmail.com> 1768833831 +0100	commit: feat: docker creation and plug & data insert and request analyse
+d11b0872475c907f7f14755c24089344856e6202 6d0854aecbfc0f721ef71e8beed9b5672fa2982a Lucas Troteseil <troteseil.lucas@gmail.com> 1768837657 +0100	commit: feat: creation rapport .md, improve request, index, rapidity of execution ...
+6d0854aecbfc0f721ef71e8beed9b5672fa2982a a033c8e1933508e24ad62c0b7d2ad1571abc98a7 Lucas Troteseil <troteseil.lucas@gmail.com> 1768838002 +0100	commit: fix: integration img shema-bdd
+a033c8e1933508e24ad62c0b7d2ad1571abc98a7 9c3db0fa165d88bd3cf321151d58e3e1855de44a Lucas Troteseil <troteseil.lucas@gmail.com> 1768838084 +0100	commit: author config
+9c3db0fa165d88bd3cf321151d58e3e1855de44a f01fc4c37806fa8e7642a8b02f0e9c232c21165e Lucas Troteseil <troteseil.lucas@gmail.com> 1768951516 +0100	commit: ajoute supplémentaire de la version pdf de la session d'analyse de performance d'une bddd postgresql
+f01fc4c37806fa8e7642a8b02f0e9c232c21165e ab27c5018ac2499acd7f4ca84a253922331e90da Lucas Troteseil <troteseil.lucas@gmail.com> 1768987145 +0100	commit: fix: configuration & organisation of the project and realize the begining of the second tp
+ab27c5018ac2499acd7f4ca84a253922331e90da c220fad7c8ba0a140af24b2b648b14b2e9cc56ff Lucas Troteseil <troteseil.lucas@gmail.com> 1768992986 +0100	commit: feat: add python script for collect binance BTC trade
+c220fad7c8ba0a140af24b2b648b14b2e9cc56ff 95246873ee504231238ecd31b740956251003af1 Lucas Troteseil <troteseil.lucas@gmail.com> 1769008303 +0100	commit: feat: creation readme, creation of index and new analysis on the data
+95246873ee504231238ecd31b740956251003af1 8f4138263b889e304f9ec504ca45630c18de1ad7 Lucas Troteseil <troteseil.lucas@gmail.com> 1769008849 +0100	commit: reduce readme
+8f4138263b889e304f9ec504ca45630c18de1ad7 6224e70371578e16df274d30826a5a65e6f188d3 Lucas Troteseil <troteseil.lucas@gmail.com> 1769009053 +0100	commit: nothing important
+6224e70371578e16df274d30826a5a65e6f188d3 989925155d6e9e1f3143a67e0d0e17926fd9fe1e Lucas Troteseil <troteseil.lucas@gmail.com> 1769009430 +0100	commit: fix: env file for variable env
